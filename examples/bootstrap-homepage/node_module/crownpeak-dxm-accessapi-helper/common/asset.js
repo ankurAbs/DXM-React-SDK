@@ -220,22 +220,43 @@ class AccessAsset {
         return await Util.makeCall(this._api,"/Asset/CreateFolderWithModel", createFolderWithModelRequest.toJson());
     }
 
-    CreateRequest = AssetCreateRequest;
-    ExistsRequest = AssetExistsRequest;
-    UpdateRequest = AssetUpdateRequest;
-    UploadRequest = AssetUploadRequest;
-    PagedRequest = AssetPagedRequest;
-    RouteRequest = AssetRouteRequest;
-    CreateFolderWithModelRequest = AssetCreateFolderWithModelRequest;
-    ExecuteWorkflowCommandRequest = ExecuteWorkflowCommandRequest;
-    MoveRequest = AssetMoveRequest;
-    PublishRequest = AssetPublishRequest;
-    PublishRefreshRequest = AssetPublishRefreshRequest;
-    RenameRequest = AssetRenameRequest;
-    AttachRequest = AssetAttachRequest;
-    DownloadPrepareRequest = DownloadAssetsPrepareRequest;
-    CreateProjectRequest = AssetCreateProjectRequest;
-    CreateSiteRootRequest = AssetCreateSiteRootRequest;
+    CreateRequest(
+        newName, destinationFolderId, modelId, type, devTemplateLanguage, templateId, workflowId, subtype
+    ){
+        return new AssetCreateRequest(newName, destinationFolderId, modelId, type, devTemplateLanguage, templateId, workflowId, subtype)
+    };
+    ExistsRequest(assetIdOrPath){return new AssetExistsRequest(assetIdOrPath)};
+    UpdateRequest(assetId, fields, fieldsToDelete,runPostInput,runPostSave){
+        return new AssetUpdateRequest(assetId, fields, fieldsToDelete,runPostInput,runPostSave)
+    };
+    UploadRequest(bytes, destinationFolderId, modelId, newName, workflowId){
+        return new AssetUploadRequest(bytes, destinationFolderId, modelId, newName, workflowId)
+    };
+    CreateFolderWithModelRequest(newName,destinationFolderId,modelId){
+        return new AssetCreateFolderWithModelRequest(newName,destinationFolderId,modelId)
+    };
+    DownloadPrepareRequest(assetIds){return new DownloadAssetsPrepareRequest(assetIds)};
+    MoveRequest(assetId, destinationFolderId){return new AssetMoveRequest(assetId, destinationFolderId)};
+    ExecuteWorkflowCommandRequest(assetId, commandId, skipDependencies){
+        return new ExecuteWorkflowCommandRequest(assetId, commandId, skipDependencies)
+    };
+    PagedRequest(assetId, assetIdToFindPage, currentPage, ignoreFilter, ignoreSort, orderType, pageSize, saveSort, sortColumn, visibilityType){
+        return new AssetPagedRequest(assetId, assetIdToFindPage, currentPage, ignoreFilter, ignoreSort, orderType, pageSize, saveSort, sortColumn, visibilityType)
+    };
+    RouteRequest(assetId, stateId){return new AssetRouteRequest(assetId, stateId)};
+
+    PublishRequest(assetIds, skipDependencies){return new AssetPublishRequest(assetIds, skipDependencies)};
+    PublishRefreshRequest(assetIds, publishingServerId, skipDependencies){
+        return new AssetPublishRefreshRequest(assetIds, publishingServerId, skipDependencies)
+    };
+    RenameRequest(assetId, newName){return new AssetRenameRequest(assetId, newName)};
+    AttachRequest(assetId, bytes, originalFilename){return new AssetAttachRequest(assetId, bytes, originalFilename)};
+    CreateProjectRequest(newName, destinationFolderId, libraryName, installComponentLibrary, componentLibraryVersion, rebuildSite){
+        return new AssetCreateProjectRequest(newName, destinationFolderId, libraryName, installComponentLibrary, componentLibraryVersion, rebuildSite)
+    };
+    CreateSiteRootRequest(newName, destinationFolderId, installCL, rebuildCL, versionCL){
+        return new AssetCreateSiteRootRequest(newName, destinationFolderId, installCL, rebuildCL, versionCL)
+    };
 }
 
 /**
