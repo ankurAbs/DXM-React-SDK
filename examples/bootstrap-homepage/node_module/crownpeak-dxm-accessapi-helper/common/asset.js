@@ -31,18 +31,18 @@ class AccessAsset {
     async attach(assetAttachRequest){
         return await Util.makeCall(this._api,"/Asset/Attach/",assetAttachRequest.toJson());
     }
-    
+
     /**
-     * 
-     * @param {DownloadAssetsPrepareRequest} DownloadAssetsPrepareRequest - Request containing assetids 
+     *
+     * @param {DownloadAssetsPrepareRequest} DownloadAssetsPrepareRequest - Request containing assetids
      */
     async downloadAsString(DownloadAssetsPrepareRequest){
         return await Util.makeCall(this._api,"/Asset/DownloadAssetsPrepare/",DownloadAssetsPrepareRequest.toJson());
     }
 
      /**
-     * 
-     * @param {DownloadAssetsPrepareRequest} DownloadAssetsPrepareRequest - Request containing assetids 
+     *
+     * @param {DownloadAssetsPrepareRequest} DownloadAssetsPrepareRequest - Request containing assetids
      */
     async downloadAsBuffer(DownloadAssetsPrepareRequest){
         var baseString = await Util.makeCall(this._api,"/Asset/DownloadAssetsPrepare/",DownloadAssetsPrepareRequest.toJson());
@@ -52,7 +52,7 @@ class AccessAsset {
 
     /**
      * Branch an asset. Asset will be in the draft state
-     * @param {number} id - The id of the asset to branch 
+     * @param {number} id - The id of the asset to branch
      */
     async branch(id) {
         var response = await Util.makeCall(this._api, "/Asset/Branch/" + id, {});
@@ -61,7 +61,7 @@ class AccessAsset {
 
     /**
      * Create a new asset
-     * @param {AssetCreateRequest} assetCreateRequest - The request containing all information needed to create a new asset 
+     * @param {AssetCreateRequest} assetCreateRequest - The request containing all information needed to create a new asset
      */
     async create(assetCreateRequest) {
         var response = await Util.makeCall(this._api, "Asset/Create", assetCreateRequest.toJson());
@@ -88,7 +88,7 @@ class AccessAsset {
 
     /**
      * Delete an asset with the specified ID
-     * @param {number|string} id - The id of the asset to delete from the cms 
+     * @param {number|string} id - The id of the asset to delete from the cms
      */
     async delete(id) {
 
@@ -110,7 +110,7 @@ class AccessAsset {
 
     /**
      * Get a list of content fields for the specified assets
-     * @param {number} id - The id of the asset whose fields are desired 
+     * @param {number} id - The id of the asset whose fields are desired
      */
     async fields(id) {
         var response = await Util.makeCall(this._api, "Asset/Fields/" + id, "{}");
@@ -136,7 +136,7 @@ class AccessAsset {
 
     /**
      * Publishes an asset that does not have workflow
-     * @param {AssetPublishRequest} AssetPublishRequest 
+     * @param {AssetPublishRequest} AssetPublishRequest
      */
     async publish(AssetPublishRequest) {
         return await Util.makeCall(this._api, "/Asset/Publish/", AssetPublishRequest.toJson());
@@ -144,7 +144,7 @@ class AccessAsset {
 
     /**
      * Republishes all assets that are in the given stage
-     * @param {AssetPublishRefreshRequest} AssetPublishRefreshRequest 
+     * @param {AssetPublishRefreshRequest} AssetPublishRefreshRequest
      */
     async publishRefresh(AssetPublishRefreshRequest) {
         return await Util.makeCall(this._api, "/Asset/PublishRefresh/", AssetPublishRefreshRequest.toJson());
@@ -152,7 +152,7 @@ class AccessAsset {
 
     /**
      * Retrieve a list of information about the provided asset
-     * @param {number} id - The id of the asset you want information about 
+     * @param {number} id - The id of the asset you want information about
      */
     async read(id) {
         var response = await Util.makeCall(this._api, "/Asset/Read/" + id, {});
@@ -171,7 +171,7 @@ class AccessAsset {
     }
     /**
      * Route an asset to a specific state
-     * @param {Object} AssetRouteRequest 
+     * @param {Object} AssetRouteRequest
      */
     async route(AssetRouteRequest) {
         var response = await Util.makeCall(this._api, "/Asset/Route/", AssetRouteRequest.toJson());
@@ -180,7 +180,7 @@ class AccessAsset {
 
     /**
      * Undelete an asset that is deleted, does nothing if asset is not deleted
-     * @param {number} id - The id of the asset to undelete 
+     * @param {number} id - The id of the asset to undelete
      */
     async undelete(id) {
         return await Util.makeCall(this._api, "/Asset/Undelete/" + id, {});
@@ -188,7 +188,7 @@ class AccessAsset {
 
     /**
      * Update the fields in an asset in the cms
-     * @param {AssetUpdateRequest} assetUpdateRequest 
+     * @param {AssetUpdateRequest} assetUpdateRequest
      */
     async update(assetUpdateRequest) {
         var response = await Util.makeCall(this._api, "/Asset/Update/", assetUpdateRequest.toJson());
@@ -220,22 +220,43 @@ class AccessAsset {
         return await Util.makeCall(this._api,"/Asset/CreateFolderWithModel", createFolderWithModelRequest.toJson());
     }
 
-    CreateRequest = AssetCreateRequest;
-    ExistsRequest = AssetExistsRequest;
-    UpdateRequest = AssetUpdateRequest;
-    UploadRequest = AssetUploadRequest;
-    PagedRequest = AssetPagedRequest;
-    RouteRequest = AssetRouteRequest;
-    CreateFolderWithModelRequest = AssetCreateFolderWithModelRequest;
-    ExecuteWorkflowCommandRequest = ExecuteWorkflowCommandRequest;
-    MoveRequest = AssetMoveRequest;
-    PublishRequest = AssetPublishRequest;
-    PublishRefreshRequest = AssetPublishRefreshRequest;
-    RenameRequest = AssetRenameRequest;
-    AttachRequest = AssetAttachRequest;
-    DownloadPrepareRequest = DownloadAssetsPrepareRequest;
-    CreateProjectRequest = AssetCreateProjectRequest;
-    CreateSiteRootRequest = AssetCreateSiteRootRequest;
+    CreateRequest(
+        newName, destinationFolderId, modelId, type, devTemplateLanguage, templateId, workflowId, subtype
+    ){
+        return new AssetCreateRequest(newName, destinationFolderId, modelId, type, devTemplateLanguage, templateId, workflowId, subtype)
+    };
+    ExistsRequest(assetIdOrPath){return new AssetExistsRequest(assetIdOrPath)};
+    UpdateRequest(assetId, fields, fieldsToDelete,runPostInput,runPostSave){
+        return new AssetUpdateRequest(assetId, fields, fieldsToDelete,runPostInput,runPostSave)
+    };
+    UploadRequest(bytes, destinationFolderId, modelId, newName, workflowId){
+        return new AssetUploadRequest(bytes, destinationFolderId, modelId, newName, workflowId)
+    };
+    CreateFolderWithModelRequest(newName,destinationFolderId,modelId){
+        return new AssetCreateFolderWithModelRequest(newName,destinationFolderId,modelId)
+    };
+    DownloadPrepareRequest(assetIds){return new DownloadAssetsPrepareRequest(assetIds)};
+    MoveRequest(assetId, destinationFolderId){return new AssetMoveRequest(assetId, destinationFolderId)};
+    ExecuteWorkflowCommandRequest(assetId, commandId, skipDependencies){
+        return new ExecuteWorkflowCommandRequest(assetId, commandId, skipDependencies)
+    };
+    PagedRequest(assetId, assetIdToFindPage, currentPage, ignoreFilter, ignoreSort, orderType, pageSize, saveSort, sortColumn, visibilityType){
+        return new AssetPagedRequest(assetId, assetIdToFindPage, currentPage, ignoreFilter, ignoreSort, orderType, pageSize, saveSort, sortColumn, visibilityType)
+    };
+    RouteRequest(assetId, stateId){return new AssetRouteRequest(assetId, stateId)};
+
+    PublishRequest(assetIds, skipDependencies){return new AssetPublishRequest(assetIds, skipDependencies)};
+    PublishRefreshRequest(assetIds, publishingServerId, skipDependencies){
+        return new AssetPublishRefreshRequest(assetIds, publishingServerId, skipDependencies)
+    };
+    RenameRequest(assetId, newName){return new AssetRenameRequest(assetId, newName)};
+    AttachRequest(assetId, bytes, originalFilename){return new AssetAttachRequest(assetId, bytes, originalFilename)};
+    CreateProjectRequest(newName, destinationFolderId, libraryName, installComponentLibrary, componentLibraryVersion, rebuildSite){
+        return new AssetCreateProjectRequest(newName, destinationFolderId, libraryName, installComponentLibrary, componentLibraryVersion, rebuildSite)
+    };
+    CreateSiteRootRequest(newName, destinationFolderId, installCL, rebuildCL, versionCL){
+        return new AssetCreateSiteRootRequest(newName, destinationFolderId, installCL, rebuildCL, versionCL)
+    };
 }
 
 /**
@@ -465,7 +486,7 @@ class AssetUpdateRequest {
         this._assetId = assetId;
         this._fields = fields;
         this._fieldsToDelete = fieldsToDelete;
-       
+
         this._runPostInput = runPostInput;
         this._runPostSave =  runPostSave;
     }
@@ -563,10 +584,10 @@ class AssetUploadRequest {
 
 class AssetCreateFolderWithModelRequest {
     /**
-     * 
-     * @param {String} newName - Desired name of the folder 
+     *
+     * @param {String} newName - Desired name of the folder
      * @param {int} destinationFolderId - The id of the folder to place the folder in
-     * @param {int} modelId - The id of the model 
+     * @param {int} modelId - The id of the model
      */
     constructor(newName,destinationFolderId,modelId){
         this._newName = newName;
@@ -606,7 +627,7 @@ class AssetCreateFolderWithModelRequest {
 }
 
 /**
- * 
+ *
  */
 class AssetCreateRequest {
 
@@ -732,7 +753,7 @@ class AssetPagedRequest {
      * @param {number} pageSize - Number of assets to return on each page
      * @param {boolean} saveSort - TODO find out
      * @param {string} sortColumn - TODO find out
-     * @param {util.VisibilityType} visibilityType - Display Hidden:1, Deleted:2, Or Normal:0 
+     * @param {util.VisibilityType} visibilityType - Display Hidden:1, Deleted:2, Or Normal:0
      */
     constructor(assetId, assetIdToFindPage, currentPage, ignoreFilter, ignoreSort, orderType, pageSize, saveSort, sortColumn, visibilityType) {
         this._assetId = assetId;
@@ -840,7 +861,7 @@ class AssetRenameRequest {
     /**
      * Create an Asset Rename Request
      * @param {number} assetId - The id of the asset to rename
-     * @param {string} newName - The new name of the asset 
+     * @param {string} newName - The new name of the asset
      */
     constructor(assetId, newName) {
         this._assetId = assetId;
@@ -876,7 +897,7 @@ class AssetRenameRequest {
 
 class AssetAttachRequest {
     /**
-     * Create an AssetAttachRequest 
+     * Create an AssetAttachRequest
      * @param {number} assetId - The id of the asset to attach this to
      * @param {string} bytes - -The file to upload as a base64 string
      * @param {string} originalFilename - The name of the file
@@ -920,12 +941,12 @@ class AssetAttachRequest {
     }
 }
  /**
-     * 
+     *
      * @param {int[]} assetIds - List of asset ids
      */
 class DownloadAssetsPrepareRequest {
     /**
-     * 
+     *
      * @param {int[]} assetIds - List of asset ids
      */
     constructor(assetIds){
@@ -952,7 +973,7 @@ class DownloadAssetsPrepareRequest {
 }
 
 /**
- * 
+ *
  */
 class AssetCreateProjectRequest {
 
@@ -1034,7 +1055,7 @@ class AssetCreateProjectRequest {
 }
 
 /**
- * 
+ *
  */
 class AssetCreateSiteRootRequest {
 

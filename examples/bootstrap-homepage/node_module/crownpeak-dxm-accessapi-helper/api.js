@@ -227,10 +227,10 @@ class api {
         );
     }
 
-    Asset = Asset;
-    Report = new Report;
-    Util = Util;
-    Workflow = Workflow;
+    Asset(api){ return new Asset(api)};
+    Report(api){ return new Report(api)};
+    Util(){ return Util};
+    Workflow(api){return Workflow(api)};
 }
 
 module.exports = api;

@@ -22,12 +22,12 @@ const login = async () => {
 };
 
 const createFileFromModel = async (name, folderId, modelId) => {
-    const request = new crownpeak.Asset.CreateRequest(name, folderId, modelId, 2, 0, 0, 0, 0);
+    const request = crownpeak.Asset.CreateRequest(name, folderId, modelId, 2, 0, 0, 0, 0);
     return crownpeak.Asset.create(request);
 };
 
 const createFile = async (name, folderId, templateId, workflowId) => {
-    const request = new crownpeak.Asset.CreateRequest(name, folderId, 0, 2, templateId > 0 ? -1 : 1, templateId, workflowId, 0);
+    const request = crownpeak.Asset.CreateRequest(name, folderId, 0, 2, -1, templateId, workflowId, 0);
     return crownpeak.Asset.create(request);
 };
 
@@ -55,17 +55,17 @@ const createOrUpdateFile = async (name, folderId, modelId, content) => {
 
 const createFolder = async (name, folderId, modelId) => {
     if (modelId) return createFolderWithModel(name, folderId, modelId);
-    const request = new crownpeak.Asset.CreateRequest(name, folderId, modelId, 4, 0, 0, 0, 0);
+    const request = crownpeak.Asset.CreateRequest(name, folderId, modelId, 4, 0, 0, 0, 0);
     return crownpeak.Asset.create(request);
 };
 
 const createFolderWithModel = async (name, folderId, modelId) => {
-    const request = new crownpeak.Asset.CreateFolderWithModelRequest(name, folderId, modelId);
+    const request = crownpeak.Asset.CreateFolderWithModelRequest(name, folderId, modelId);
     return crownpeak.Asset.createFolderWithModel(request);
 };
 
 const download = async (id) => {
-    const request = new crownpeak.Asset.DownloadPrepareRequest(id);
+    const request = crownpeak.Asset.DownloadPrepareRequest(id);
     return crownpeak.Asset.downloadAsBuffer(request);
 };
 
@@ -100,7 +100,7 @@ const getPath = async (id) => {
 };
 
 const update = async (id, content, deleteContent = []) => {
-    const request = new crownpeak.Asset.UpdateRequest(id, content, deleteContent, true, true);
+    const request = crownpeak.Asset.UpdateRequest(id, content, deleteContent, true, true);
     return crownpeak.Asset.update(request);
 };
 
@@ -112,7 +112,7 @@ const uploadBuffer = async (name, folderId, modelId, content, workflowId) => {
         // We replace a binary by passing its asset id as the folder id
         folderId = result.assetId;
     }
-    const request = new crownpeak.Asset.UploadRequest(content, folderId, modelId, name, workflowId || 0);
+    const request = crownpeak.Asset.UploadRequest(content, folderId, modelId, name, workflowId || 0);
     return crownpeak.Asset.upload(request);
 };
 
