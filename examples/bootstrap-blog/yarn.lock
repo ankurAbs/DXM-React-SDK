@@ -1206,9 +1206,9 @@ bluebird@^3.5.0, bluebird@^3.5.5:
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
-  version "4.11.8"
-  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
-  integrity sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
+  version "4.11.9"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
+  integrity sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw==
 
 body-parser@1.19.0:
   version "1.19.0"
@@ -1746,21 +1746,33 @@ crownpeak-dxm-accessapi-helper@^1.0.2:
     request-promise "^4.2.4"
     request-promise-native "^1.0.7"
 
-crownpeak-dxm-react-sdk@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/crownpeak-dxm-react-sdk/-/crownpeak-dxm-react-sdk-1.0.8.tgz#9400b996b7c12718a669051fc166b5eb13fcb64d"
-  integrity sha512-L+m0je3MWwjpnaFJqnQV2Wk8yGiNY/9NxOLe4dHy/nVb7BxW3gdI4llFobfedTKiEieY7q7ig2HbL0BjysMiBg==
+crownpeak-dxm-accessapi-helper@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/crownpeak-dxm-accessapi-helper/-/crownpeak-dxm-accessapi-helper-1.0.4.tgz#5aa5cc9c29c4023a5a0025a840b353228314495e"
+  integrity sha512-62yC9zkAQfZhpUHSpIQdkNJDYLwT1vH1rMuN/W569gEL+rpqA0lVtySZNFKWWQIh2+k47Gd5lJDKeZEFksAfPQ==
+  dependencies:
+    istextorbinary "^2.5.1"
+    mocha "^7.1.2"
+    react-native-dotenv "^0.2.0"
+    request "^2.88.0"
+    request-promise "^4.2.4"
+    request-promise-native "^1.0.7"
+
+crownpeak-dxm-react-sdk@^1.0.10:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/crownpeak-dxm-react-sdk/-/crownpeak-dxm-react-sdk-1.0.15.tgz#00b2446bf90aa1b9e0474dc4ef423b9cc369cf62"
+  integrity sha512-ssymILZoP1cxuuTWQvhjpqWp4BwCSJVDDMo4FqkHRLJRqs6Fu25ObGkLFX/R/2lXJ930w0jHnaIrlmUwqUF+HA==
   dependencies:
     "@babel/parser" "^7.9.4"
-    crownpeak-dxm-accessapi-helper "^1.0.2"
-    crownpeak-dxm-sdk-core "^0.1.1"
+    crownpeak-dxm-accessapi-helper "^1.0.3"
+    crownpeak-dxm-sdk-core "^0.1.3"
     dotenv "^8.2.0"
     react "^15.5.4"
 
-crownpeak-dxm-sdk-core@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/crownpeak-dxm-sdk-core/-/crownpeak-dxm-sdk-core-0.1.1.tgz#80160fd3e85859be37b09c29d3cbf0e5932987c5"
-  integrity sha512-kfkkz0XpUNlrRM+oQWRNdv4Pt2/0cMg1QPFOssv+qJ9lRE2hkeqobKs8KIQKZdIUbobbCfmDcvQvPfztDuEA1g==
+crownpeak-dxm-sdk-core@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/crownpeak-dxm-sdk-core/-/crownpeak-dxm-sdk-core-0.1.3.tgz#836128c8c8cec0a32dcc18603a7c285569dd4160"
+  integrity sha512-kz75o1egrOZipy18jb5VF+5PlSPx1iS1KjipougNI7vblMIYGKYagfx6WKiaBBYGhrr3MnlHdiZj2Ga2E4g5NA==
   dependencies:
     crownpeak-dxm-accessapi-helper "^1.0.2"
 
@@ -2045,9 +2057,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 elliptic@^6.0.0:
-  version "6.5.2"
-  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.2.tgz#05c5678d7173c049d8ca433552224a495d0e3762"
-  integrity sha512-f4x70okzZbIQl/NSRLkI/+tteV/9WqL98zx+SQ69KbXxmVrmjwsNUPn/gYJJ0sHvEak24cZgHIPegRePAtA/xw==
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.3.tgz#cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6"
+  integrity sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==
   dependencies:
     bn.js "^4.4.0"
     brorand "^1.0.1"
