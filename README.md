@@ -1,6 +1,5 @@
 <a href="https://www.crownpeak.com" target="_blank">![Crownpeak Logo](images/crownpeak-logo.png?raw=true "Crownpeak Logo")</a>
 
-
 # Crownpeak Digital Experience Management (DXM) Software Development Kit (SDK) for React
 Crownpeak Digital Experience Management (DXM) Software Development Kit (SDK) for React has been constructed to assist
 the Single Page App developer in developing client-side applications that leverage DXM for content management purposes.
@@ -46,7 +45,7 @@ npm install crownpeak-dxm-react-sdk
 ```
 
 ## Usage - Runtime Data Libraries
- Review example project at <a href="https://github.com/Crownpeak/DXM-React-SDK/tree/master/examples/bootstrap-blog" target="_blank">https://github.com/Crownpeak/DXM-React-SDK/tree/master/examples/bootstrap-blog</a>
+ Review example project at <a href="https://github.com/Crownpeak/DXM-SDK-Examples/tree/master/React" target="_blank">https://github.com/Crownpeak/DXM-SDK-Examples/tree/master/React</a>
  for complete usage options. The example project includes the following capabilities:
   * Routing using ```React-Router``` and JSON payload, delivered from DXM to map AssetId to requested path. Although
   not part of the SDK itself, the example can be used if desired. For routes.json structure, see example at the foot of this README.
@@ -118,7 +117,7 @@ export default class BlogPage extends CmsStaticPage
 ```
 
 ### CmsDynamicPage Type
-Loads payload data from DXM Dynamic Content API upon request - expects knowledge of DXM AssetId. Example at /examples/bootstrap-blog/pages/blogPage.js:
+Loads payload data from DXM Dynamic Content API upon request - expects knowledge of DXM AssetId.
  ```
 import React from 'react'
 import Header from "../components/header";
@@ -180,7 +179,7 @@ export default class BlogPage extends CmsDynamicPage
 ```
 
 ### CmsComponent
-Includes CmsField references for content rendering from DXM within a React Component. Example at /examples/bootstrap-blog/components/blogPost.js:
+Includes CmsField references for content rendering from DXM within a React Component.:
 ```
 import React from 'react';
 import { CmsComponent, CmsField, CmsFieldTypes } from 'crownpeak-dxm-react-sdk';
@@ -210,6 +209,62 @@ export default class BlogPost extends CmsComponent
 }
 ```
 
+### CmsDropZoneComponent
+Enables implementation of draggable components via DXM. Example usage below:
+```
+import { CmsDropZoneComponent } from 'crownpeak-dxm-react-sdk';
+
+import PrimaryCTA from "../components/primaryCta";
+import SecondaryCTA from "../components/secondaryCta";
+
+export default class DropZone extends CmsDropZoneComponent {
+    constructor(props)
+    {
+        super(props);
+        this.components = {
+            "PrimaryCTA": PrimaryCTA,
+            "SecondaryCTA": SecondaryCTA
+        };
+    }
+}
+```
+
+### List Items
+Enables implementation of list items within DXM. Example usage below (note comment, which is requirement for DXM scaffolding):
+```
+import React from 'react';
+import {CmsComponent, CmsField, CmsFieldTypes } from 'crownpeak-dxm-react-sdk';
+import SecondaryContainer from './secondaryContainer';
+​
+export default class SecondaryList extends CmsComponent
+{
+    constructor(props)
+    {
+        super(props);
+        this.SecondaryContainers = new CmsField("SecondaryContainer", "Widget", window.cmsDataCache[window.cmsDataCache.cmsAssetId].SecondaryList);
+    }
+​
+    render () {
+        let i = 0;
+        return (
+            <div className="row">
+                {/* <List name="SecondaryContainers" type="Widget" itemName="_Widget"> */}
+                {this.SecondaryContainers.value.map(sc => {
+                    return <SecondaryContainer data={sc.SecondaryContainer} key={i++}/>
+                })}
+                {/* </List> */}
+            </div>
+        )
+    }
+}
+```
+
+Example implementation upon a ```CmsStaticPage``` or ```CmsDynamicPage```:
+```
+<DropZone name="Test"/>
+```
+For further details, see examples/bootstrap-homepage project.
+
 ### CmsFieldType
 Enumeration containing field types supported within the SDK.
 
@@ -217,13 +272,14 @@ Enumeration containing field types supported within the SDK.
 | ------------- | --------------- |
 | TEXT          | Text            |
 | WYSIWYG       | Wysiwyg         |
-| DATE          | DateTime        |
+| DATE          | Date            |
 | DOCUMENT      | Document        |
-| IMAGE         | Image           |
+| IMAGE         | Src             |
+| HREF          | Href            |
 
 
 ### Querying Custom Data from Dynamic Content API
-Used to run a one-time dynamic query from DXM's Dynamic Content API. Example at /examples/bootstrap-blog/components/postArchives.js:
+Used to run a one-time dynamic query from DXM's Dynamic Content API.
 ```
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -234,7 +290,7 @@ export default class PostArchives extends CmsComponent
     constructor(props)
     {
         super (props);
-        const data = CmsDynamicDataProvider.getDynamicQuery("q=*:*&fq=custom_s_type:\"Blog%20Page\"&rows=0&facet=true&facet.mincount=1&facet.range=custom_dt_created&f.custom_dt_created.facet.range.start=NOW/YEAR-1YEAR&f.custom_dt_created.facet.range.end=NOW/YEAR%2B1YEAR&f.custom_dt_created.facet.range.gap=%2B1MONTH");
+        const data = new CmsDynamicDataProvider().getDynamicQuery("q=*:*&fq=custom_s_type:\"Blog%20Page\"&rows=0&facet=true&facet.mincount=1&facet.range=custom_dt_created&f.custom_dt_created.facet.range.start=NOW/YEAR-1YEAR&f.custom_dt_created.facet.range.end=NOW/YEAR%2B1YEAR&f.custom_dt_created.facet.range.gap=%2B1MONTH");
         this.months = data.facet_counts.facet_ranges.custom_dt_created.counts.filter((_c, i) => i%2 === 0);
     }
 
@@ -254,7 +310,7 @@ export default class PostArchives extends CmsComponent
 ```
 
 ### Using Custom Data from Named JSON Object on Filesystem
-Used to load content from a JSON Object on Filesystem and populate fields in CmsComponent. Example at /examples/bootstrap-blog/components/topicList.js:
+Used to load content from a JSON Object on Filesystem and populate fields in CmsComponent.
 ```
 import React from 'react';
 import { CmsComponent, CmsStaticDataProvider } from 'crownpeak-dxm-react-sdk';
@@ -264,7 +320,7 @@ export default class TopicList extends CmsComponent
     constructor(props)
     {
         super (props);
-        this.topics = CmsStaticDataProvider.getCustomData("topics.json");
+        this.topics = new CmsStaticDataProvider().getCustomData("topics.json");
     }
 
     render() {
@@ -281,15 +337,10 @@ export default class TopicList extends CmsComponent
 }
 ```
 
-## Usage - DXM Content-Type Scaffolding (cmsify)
-Requires manual update to DXM Component Library, by installing <a href="https://raw.githubusercontent.com/Crownpeak/DXM-SDK-Core/master/dxm/dxm-cl-patch-for-react-sdk-2020MAY05.xml" target="_blank">dxm-cl-patch-for-React-sdk-2020MAY05.xml</a>
-using Crownpeak DXM Content Xcelerator℠ (<a href="https://github.com/Crownpeak/Content-Xcelerator" target="_blank">https://github.com/Crownpeak/Content-Xcelerator</a>).
+## Installation - DXM Content-Type Scaffolding (cmsify)
+* Requires update to DXM Component Library, by installing <a href="https://raw.githubusercontent.com/Crownpeak/DXM-SDK-Core/master/dxm/dxm-cl-patch-for-sdk-latest.xml" target="_blank">dxm-cl-patch-for-sdk-latest.xml</a>.
 
-Installation instructions:
- * Create new DXM Site Root and check "Install Component Project using Component Library 2.1";
- * Use Crownpeak DXM Content Xcelerator℠ to install manifest (detailed above) to Site Root with "Overwrite Existing Assets" option checked.
-
-Requires .env file located in root of the React project to be scaffolded. Values required within .env file are:
+* Requires .env file located in root of the React project to be scaffolded. Values required within .env file are:
  
 | Key           | Description                                                               |
 | ------------- | ------------------------------------------------------------------------- |
@@ -315,12 +366,33 @@ CMS_STATIC_CONTENT_LOCATION=/content/json
 CMS_DYNAMIC_CONTENT_LOCATION=//searchg2.crownpeak.net/{Replace with Search G2 Collection Name}/select/?wt=json
 ```
 
+Installation instructions:
+1. Create new DXM Site Root and check "Install Component Project using Component Library 2.2"; or
+```
+$ yarn crownpeak init --folder <parent-folder-id> --name "New Site Name"
+```
+
+2. After site creation, set the values for `CMS_SITE_ROOT` and `CMS_PROJECT` in your `.env` file to be the
+relevant asset IDs from DXM;
+
+3. Install the manifest (detailed above);
+```
+$ yarn crownpeak patch
+```
+
+4. Verify that all your settings are correct.
+```
+$ yarn crownpeak scaffold --verify
+```
+
+## Usage - DXM Content-Type Scaffolding
+
 From the root of the project to be React scaffolded:
 
 ```
-$ yarn crownpeak
-yarn run v1.22.0
-$ ../../sdk/cmsify
+$ yarn crownpeak scaffold
+yarn run v1.22.4
+$ ../../sdk/crownpeak scaffold
 Uploaded [holder.min.js] as [/Skunks Works/React SDK/_Assets/js/holder.min.js] (261402)
 Unable to find source file [/Users/paul.taylor/Documents/Repos/Crownpeak/DXM-React-SDK/examples/bootstrap/js/bundle.js] for upload
 Uploaded [blog.css] as [/Skunks Works/React SDK/_Assets/css/blog.css] (261400)
@@ -340,6 +412,20 @@ Saved content folder [Blog Pages] as [/Skunks Works/React SDK/Blog Pages/] (2613
 
 The scaffolding can be run multiple times as additional capabilities are added to the React project. Asset data within DXM will not
 be destroyed by future runs.
+
+The `crownpeak scaffold` script supports a number of optional command-line parameters:
+
+| Parameter        | Effect        |
+| ---------------- | --------------|
+| `--dry-run`      | Report on the items that would be imported into the CMS, but do not import them. |
+| `--verbose`      | Show verbose output where applicable. |
+| `--verify`       | Verify that the Crownpeak DXM environment is configured correctly. |
+| `--no-components` | Do not import any components. |
+| `--no-pages`      | Do not import any pages, templates, or models. |
+| `--no-uploads`    | Do not import any uploads; for example CSS, JavaScript or images. |
+| `--no-wrappers`   | Do not import any wrappers. |
+
+These are intended to improve performance for multiple runs, and you should expect to see errors if the items being skipped have not already been created within the CMS; for example, if you provide the `--nocomponents` parameter where the components have not previously been imported.
 
 ## routes.json File Structure Example
 ```
